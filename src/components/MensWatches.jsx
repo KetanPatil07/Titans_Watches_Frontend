@@ -8,7 +8,7 @@ const MensWatches = () => {
   const { wishlist, toggleWishlist, cart, addToCart } = useStore();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/Mens/AddProduct")
+    axios.get("http://localhost:8080/Mens/AllProduct")
       .then((res) => setProducts(res.data))
       .catch((err) => console.error("Error fetching products:", err));
   }, []);

@@ -33,15 +33,11 @@ function App() {
           <Route path="/upadate" element={<EditProduct />} />
           <Route path="/Mens" element={<AddMensProduct />} />
           <Route path="/Womens" element={<AddWomensProduct />} />
-          
-
-
-          
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/admin" element={<Addproduct />} />
           <Route path="/order" element={<OrderForm />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/mens" element={<MensWatches />} />
+          <Route path="/men" element={<MensWatches />} />
           <Route path="/womens" element={<WomensWatches />} />
           <Route path="/funky" element={<FunkyCollection />} />
         </Routes>
