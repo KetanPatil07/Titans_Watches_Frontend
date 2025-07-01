@@ -15,6 +15,9 @@ import Footer from "./components/Footer";
 import { StoreProvider } from "./context/StoreContext";
 import OrderProduct from "./components/OrderProduct";
 import EditProduct from "./components/EditProduct";
+import MensWatches from "./components/MensWatches";
+import WomensWatches from "./components/WomensWatches";
+import FunkyCollection from "./components/FunkyCollection";
 
 function App() {
   return (
@@ -31,8 +34,11 @@ function App() {
           <Route path="/admin" element={<Addproduct />} />
           <Route path="/order" element={<OrderForm />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/mens" element={<MensWatches />} />
+          <Route path="/womens" element={<WomensWatches />} />
+          <Route path="/funky" element={<FunkyCollection />} />
         </Routes>
-
+        {/*  */}
         {/* You can add styling class to footer like "bg-dark py-3" */}
         <Footer/>
       </Router>
