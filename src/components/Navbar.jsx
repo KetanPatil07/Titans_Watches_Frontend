@@ -34,7 +34,22 @@ function Navbar() {
             </li>
             {user?.role === 'admin' && (
               <li className="nav-item">
-                <Link className="nav-link" to="/admin">Add Product</Link>
+                <Link className="nav-link" to="/admin">Add Our Sales </Link>
+              </li>
+            )}
+             {user?.role === 'admin' && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/Mens">Add Men Products </Link>
+              </li>
+            )}
+             {user?.role === 'admin' && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/Womens">Add Women Products </Link>
+              </li>
+            )}
+             {user?.role === 'admin' && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/child">Add Childern Products </Link>
               </li>
             )}
             {user?.role === 'admin' && (
@@ -48,10 +63,14 @@ function Navbar() {
               </li>
             )}
           </ul>
-            <form className="d-flex me-5" role="search">
-        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button className="btn btn-outline-success" type="submit">Search</button>
-      </form>
+
+          {user?.role === 'user' && (
+              <form className="d-flex me-5" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+              <button className="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            )}
+            
           <div className="d-flex align-items-center gap-4">
             <Link to="/cart" className="text-dark position-relative">
               <i className="fa-solid fa-cart-shopping fs-4"></i>

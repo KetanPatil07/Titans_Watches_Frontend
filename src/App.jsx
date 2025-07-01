@@ -18,6 +18,8 @@ import EditProduct from "./components/EditProduct";
 import MensWatches from "./components/MensWatches";
 import WomensWatches from "./components/WomensWatches";
 import FunkyCollection from "./components/FunkyCollection";
+import AddMensProduct from "./admin/AddMensProduct";
+import AddWomensProduct from "./admin/AddWomensProduct";
 
 function App() {
   return (
@@ -29,6 +31,11 @@ function App() {
           <Route path="/cart" element={<Addtocart />} />
           <Route path="/orderproduct" element={<OrderProduct />} />
           <Route path="/upadate" element={<EditProduct />} />
+          <Route path="/Mens" element={<AddMensProduct />} />
+          <Route path="/Womens" element={<AddWomensProduct />} />
+          
+
+
           
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/admin" element={<Addproduct />} />
