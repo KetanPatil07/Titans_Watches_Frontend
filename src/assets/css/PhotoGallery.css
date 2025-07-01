@@ -1,0 +1,25 @@
+
+   .gallery-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns for 8 images */
+    gap: 0; /* Remove space between images */
+    max-width: 98%; 
+    margin: 0 auto; /* center grid */
+    border: 4px solid #ccc; /* optional border around the collage */
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 0; /* No rounding — makes it look seamless */
+    box-shadow: none; /* Remove shadow for cleaner layout */
+  }
+  
