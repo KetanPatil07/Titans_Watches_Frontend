@@ -1,12 +1,20 @@
+// src/context/StoreContext.js
+
 import React, { createContext, useContext, useState } from 'react';
-// import { toast } from 'react-toastify'; // ✅ Make sure this is not commented out
+import { toast } from 'react-toastify';
 
 const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const [cart, setCart] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [user, setUser] = useState(null);
+
+  const placeOrder = (orderData) => {
+    if (!orderData || !orderData.productName) return;
+    setOrders(prev => [...prev, { ...orderData, status: 'Pending', date: new Date().toLocaleString() }]);
+  };
 
   const toggleWishlist = (product) => {
     const exists = wishlist.find((item) => item.id === product.id);
@@ -28,19 +36,24 @@ export const StoreProvider = ({ children }) => {
     }
   };
 
+  const buyNow = (product) => {
+    if (!product || !product.name) return;
+    setOrders((prev) => [...prev, { ...product, status: 'Pending', date: new Date().toLocaleString() }]);
+    setCart((prev) => prev.filter((item) => item.id !== product.id));
+    toast.success(`${product.name} has been ordered`);
+  };
+
   return (
-    <StoreContext.Provider
-      value={{
-        cart,
-        setCart,
-        wishlist,
-        setWishlist,
-        user,
-        setUser,
-        toggleWishlist,  // ✅ Export function
-        addToCart        // ✅ Export function
-      }}
-    >
+    <StoreContext.Provider value={{
+      cart, setCart,
+      wishlist, setWishlist,
+      user, setUser,
+      toggleWishlist,
+      addToCart,
+      orders, setOrders,
+      placeOrder,
+      buyNow
+    }}>
       {children}
     </StoreContext.Provider>
   );

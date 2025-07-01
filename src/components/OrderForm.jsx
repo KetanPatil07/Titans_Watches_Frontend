@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../assets/css/OrderForm.css';
 import Swal from 'sweetalert2';
+import { useStore } from '../context/StoreContext';
 
 const OrderForm = () => {
   const { state: product } = useLocation(); 
   const navigate = useNavigate();
+  const { placeOrder, setCart } = useStore();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -27,31 +29,34 @@ const OrderForm = () => {
     }));
   };
 
-  const handleBuyNow = (product) => {
-    Swal.fire({
-      title: 'Purchase Successful!',
-      text: `You have bought ${product.name} for ₹${totalPrice.toFixed(2)}`,
-      icon: 'success',
-    });
-
-
-    setCart(cart.filter(item => item.id !== product.id));
-  };
-
   const totalPrice = formData.quantity * parseFloat(product.pprice);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Create full order
     const orderData = {
       ...formData,
       productName: product.name,
       productImage: `http://localhost:8080/${product.photo}`,
       price: product.pprice,
-      totalPrice
+      totalPrice,
     };
 
-    navigate('/order-confirmation', { state: orderData });
+    // ✅ Save order only once, after validation
+    placeOrder(orderData);
+
+    // ✅ Remove from cart
+    setCart(prev => prev.filter(item => item.id !== product.id));
+
+    // ✅ Success alert
+    Swal.fire({
+      title: 'Order Placed!',
+      text: `Your order for ${product.name} has been placed.`,
+      icon: 'success',
+    });
+
+    navigate('/myorders');
   };
 
   return (
@@ -109,7 +114,7 @@ const OrderForm = () => {
           <p className="fw-bold fs-5 text-dark">Total Price: ₹{totalPrice.toFixed(2)}</p>
         </div>
 
-        <button type="submit" onClick={() => handleBuyNow(product)} className="submit-btn">Submit Order</button>
+        <button type="submit" className="submit-btn">Submit Order</button>
       </form>
     </div>
   );

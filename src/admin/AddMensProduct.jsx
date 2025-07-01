@@ -44,7 +44,7 @@ const AddMensProduct = () => {
   
     return (
       <div className="container mx-5">
-        <h2 className="my-5">Add Product</h2>
+        <h2 className="my-5">Add Men Product</h2>
         <form onSubmit={onSubmitHandle} encType="multipart/form-data">
           <div className="mb-3">
             <label className="form-label">Product Image:</label>

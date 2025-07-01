@@ -1,25 +1,28 @@
+// src/products/Addtocart.jsx
+
 import React from 'react';
 import { useStore } from '../context/StoreContext';
 import Swal from 'sweetalert2';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Addtocart() {
-  const { cart, setCart } = useStore();
+  const { cart, setCart, buyNow } = useStore();
   const navigate = useNavigate();
 
   const handleRemove = (id) => {
-    const newCart = cart.filter(product => product.id !== id);
-    setCart(newCart);
+    const updatedCart = cart.filter((product) => product.id !== id);
+    setCart(updatedCart);
     Swal.fire("Removed", "Product removed from cart", "info");
   };
 
   const handleBuyNow = (product) => {
-    navigate('/order', { state: product }); // pass product to OrderForm
+    buyNow(product);
+    navigate('/order', { state: product });
   };
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4 fw-bold">Titan</h2>
+      <h2 className="text-center mb-4 fw-bold">Add To Cart</h2>
       {cart.length === 0 ? (
         <p className="text-center">Your cart is empty.</p>
       ) : (

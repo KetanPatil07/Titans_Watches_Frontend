@@ -1,3 +1,5 @@
+// src/App.js
+
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -12,6 +14,7 @@ import OrderForm from "./components/OrderForm";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 
+
 import { StoreProvider } from "./context/StoreContext";
 import OrderProduct from "./components/OrderProduct";
 import EditProduct from "./components/EditProduct";
@@ -20,6 +23,7 @@ import WomensWatches from "./components/WomensWatches";
 import FunkyCollection from "./components/FunkyCollection";
 import AddMensProduct from "./admin/AddMensProduct";
 import AddWomensProduct from "./admin/AddWomensProduct";
+import MyOrders from "./products/MyOrders";
 
 function App() {
   return (
@@ -30,7 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Addtocart />} />
           <Route path="/orderproduct" element={<OrderProduct />} />
-          <Route path="/upadate" element={<EditProduct />} />
+          <Route path="/update" element={<EditProduct />} />
           <Route path="/Mens" element={<AddMensProduct />} />
           <Route path="/Womens" element={<AddWomensProduct />} />
           <Route path="/wishlist" element={<Wishlist />} />
@@ -38,14 +42,12 @@ function App() {
           <Route path="/order" element={<OrderForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/men" element={<MensWatches />} />
-          <Route path="/womens" element={<WomensWatches />} />
+          <Route path="/women" element={<WomensWatches />} />
           <Route path="/funky" element={<FunkyCollection />} />
+          <Route path="/myorders" element={<MyOrders />} />
         </Routes>
-        {/*  */}
-        {/* You can add styling class to footer like "bg-dark py-3" */}
-        <Footer/>
+        <Footer />
       </Router>
-
       <ToastContainer position="top-right" autoClose={3000} />
     </StoreProvider>
   );

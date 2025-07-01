@@ -10,7 +10,7 @@ import carousal3 from '../assets/images/carousal3.jpg';
 const WatchCategoryCarousel = () => {
   const watchData = [
     { label: 'Men', image: carousal1, link: '/men' },
-    { label: 'Women', image: carousal2, link: '/womens' },
+    { label: 'Women', image: carousal2, link: '/women' },
     { label: 'Funky', image: carousal3, link: '/funky' },
   ];
 
