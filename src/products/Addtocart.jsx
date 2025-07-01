@@ -20,6 +20,7 @@ function Addtocart() {
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4 fw-bold">My Cart</h2>
+      <h2 className="text-center mb-4 fw-bold">My Cart</h2>
       {cart.length === 0 ? (
         <p className="text-center">Your cart is empty.</p>
       ) : (
