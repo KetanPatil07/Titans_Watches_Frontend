@@ -15,7 +15,7 @@ const images = [gridbg, gridbg2, gridbg3, gridbg4, gridbg5, gridbg6, gridbg7, gr
 const PhotoGallery = () => {
   return (
     <div className="gallery-container">
-      <h2 className="gallery-title mb-5 fw-bold">Our Watch Collection</h2>
+      <h1 className="gallery-title  mb-5 fw-bold">Our Watch Collection</h1>
       <div className="gallery-grid">
         {images.map((src, index) => (
           <div key={index} className="gallery-item">

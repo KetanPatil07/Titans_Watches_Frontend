@@ -15,7 +15,7 @@ function Allproduct() {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-5 fw-bold">All Products</h1>
+      <h1 className="text-center mb-5 fw-bold">Best Sellers</h1>
 
       <div className="row g-4">
         {products.map((product) => (
