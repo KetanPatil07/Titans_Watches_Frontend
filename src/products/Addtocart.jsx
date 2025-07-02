@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 function Addtocart() {
-  const { cart, setCart, buyNow } = useStore();
+  const { cart, setCart } = useStore();
   const navigate = useNavigate();
 
   const handleRemove = (id) => {
@@ -16,8 +16,7 @@ function Addtocart() {
   };
 
   const handleBuyNow = (product) => {
-    buyNow(product);
-    navigate('/order', { state: product });
+    navigate('/order', { state: product }); // 👈 Send product to order form
   };
 
   return (
@@ -28,7 +27,7 @@ function Addtocart() {
       ) : (
         <div className="row g-4">
           {cart.map((product) => (
-            <div className="col-md-4 col-lg-3" key={product.id || product.name}>
+            <div className="col-md-4 col-lg-3" key={product.id}>
               <div className="card h-100 shadow">
                 <img
                   src={`http://localhost:8080/${product.photo}`}

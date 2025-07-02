@@ -1,7 +1,7 @@
 // src/context/StoreContext.js
 
 import React, { createContext, useContext, useState } from 'react';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 const StoreContext = createContext();
 
@@ -13,13 +13,17 @@ export const StoreProvider = ({ children }) => {
 
   const placeOrder = (orderData) => {
     if (!orderData || !orderData.productName) return;
-    setOrders(prev => [...prev, { ...orderData, status: 'Pending', date: new Date().toLocaleString() }]);
+    setOrders(prev => [...prev, {
+      ...orderData,
+      status: 'Pending',
+      date: new Date().toLocaleString()
+    }]);
   };
 
   const toggleWishlist = (product) => {
-    const exists = wishlist.find((item) => item.id === product.id);
+    const exists = wishlist.find(item => item.id === product.id);
     if (exists) {
-      setWishlist(wishlist.filter((item) => item.id !== product.id));
+      setWishlist(wishlist.filter(item => item.id !== product.id));
       toast.info(`${product.name} removed from wishlist`);
     } else {
       setWishlist([...wishlist, product]);
@@ -28,7 +32,7 @@ export const StoreProvider = ({ children }) => {
   };
 
   const addToCart = (product) => {
-    if (!cart.find((item) => item.id === product.id)) {
+    if (!cart.find(item => item.id === product.id)) {
       setCart([...cart, product]);
       toast.success(`${product.name} added to cart`);
     } else {
@@ -36,23 +40,15 @@ export const StoreProvider = ({ children }) => {
     }
   };
 
-  const buyNow = (product) => {
-    if (!product || !product.name) return;
-    setOrders((prev) => [...prev, { ...product, status: 'Pending', date: new Date().toLocaleString() }]);
-    setCart((prev) => prev.filter((item) => item.id !== product.id));
-    toast.success(`${product.name} has been ordered`);
-  };
-
   return (
     <StoreContext.Provider value={{
       cart, setCart,
       wishlist, setWishlist,
-      user, setUser,
-      toggleWishlist,
-      addToCart,
       orders, setOrders,
       placeOrder,
-      buyNow
+      user, setUser,
+      addToCart,
+      toggleWishlist,
     }}>
       {children}
     </StoreContext.Provider>

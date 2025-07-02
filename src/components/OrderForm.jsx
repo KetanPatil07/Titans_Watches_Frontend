@@ -1,3 +1,5 @@
+// src/pages/OrderForm.js
+
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../assets/css/OrderForm.css';
@@ -34,7 +36,6 @@ const OrderForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create full order
     const orderData = {
       ...formData,
       productName: product.name,
@@ -43,13 +44,9 @@ const OrderForm = () => {
       totalPrice,
     };
 
-    // ✅ Save order only once, after validation
     placeOrder(orderData);
-
-    // ✅ Remove from cart
     setCart(prev => prev.filter(item => item.id !== product.id));
 
-    // ✅ Success alert
     Swal.fire({
       title: 'Order Placed!',
       text: `Your order for ${product.name} has been placed.`,
@@ -121,3 +118,4 @@ const OrderForm = () => {
 };
 
 export default OrderForm;
+  
