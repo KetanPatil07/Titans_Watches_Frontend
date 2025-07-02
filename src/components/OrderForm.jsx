@@ -1,5 +1,3 @@
-// src/pages/OrderForm.js
-
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../assets/css/OrderForm.css';
@@ -9,7 +7,7 @@ import { useStore } from '../context/StoreContext';
 const OrderForm = () => {
   const { state: product } = useLocation(); 
   const navigate = useNavigate();
-  const { placeOrder, setCart } = useStore();
+  const { user, placeOrder, setCart } = useStore(); // ✅ added user
 
   const [formData, setFormData] = useState({
     name: '',
@@ -36,12 +34,24 @@ const OrderForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // ✅ Check login
+    if (!user) {
+      Swal.fire({
+        title: 'Login Required',
+        text: 'Please log in to place your order.',
+        icon: 'warning',
+      });
+      navigate('/login');
+      return;
+    }
+
     const orderData = {
       ...formData,
       productName: product.name,
       productImage: `http://localhost:8080/${product.photo}`,
       price: product.pprice,
       totalPrice,
+      userId: user.id, // ✅ attach user ID
     };
 
     placeOrder(orderData);
@@ -118,4 +128,3 @@ const OrderForm = () => {
 };
 
 export default OrderForm;
-  

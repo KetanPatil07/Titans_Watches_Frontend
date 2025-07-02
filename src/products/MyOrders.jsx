@@ -1,10 +1,13 @@
 // src/pages/MyOrders.jsx
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStore } from '../context/StoreContext';
 
 function MyOrders() {
-  const { orders } = useStore();
+  const { orders, fetchOrders, cancelOrder } = useStore();
+
+  useEffect(() => {
+  fetchOrders();
+}, []);
 
   const statusColor = {
     Pending: 'warning',
@@ -34,12 +37,20 @@ function MyOrders() {
                   <p className="card-text"><strong>Quantity:</strong> {order.quantity}</p>
                   <p className="card-text"><strong>Total:</strong> ₹{order.totalPrice}</p>
                   <p className="card-text"><strong>Payment:</strong> {order.paymentMethod}</p>
-                  <p className="card-text"><strong>Ordered On:</strong> {order.date}</p>
-                  <p className="card-text"><strong>Status:</strong> 
+                  <p className="card-text"><strong>Ordered On:</strong> {new Date(order.orderDate).toLocaleDateString()}</p>
+                  <p className="card-text"><strong>Status:</strong>
                     <span className={`badge bg-${statusColor[order.status] || 'secondary'} ms-2`}>
                       {order.status}
                     </span>
                   </p>
+                  {order.status === 'Pending' && (
+                    <button
+                      className="btn btn-danger btn-sm mt-2"
+                      onClick={() => cancelOrder(order.id)}
+                    >
+                      Cancel Order
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

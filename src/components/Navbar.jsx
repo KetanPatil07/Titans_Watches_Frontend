@@ -13,6 +13,11 @@ function Navbar() {
     navigate('/login');
   };
 
+  // ✅ Hide navbar if admin is logged in
+  if (user?.role === 'admin') {
+    return null;
+  }
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary border container-fluid card p-2 sticky-top">
       <div className="container-fluid">
@@ -35,56 +40,16 @@ function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/">Home</Link>
             </li>
-
-            {/* Admin Dropdown */}
-            {user?.role === 'admin' && (
-              <li className="nav-item dropdown">
-                <span
-                  className="nav-link dropdown-toggle"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Add Products
-                </span>
-                <ul className="dropdown-menu">
-                  <li><Link className="dropdown-item" to="/admin">Add All Products</Link></li>
-                  <li><Link className="dropdown-item" to="/Mens">Add Men Products</Link></li>
-                  <li><Link className="dropdown-item" to="/Womens">Add Women Products</Link></li>
-                  <li><Link className="dropdown-item" to="/child">Add Children Products</Link></li>
-                </ul>
-              </li>
-            )}
-
-            {/* Admin-only actions */}
-            {user?.role === 'admin' && (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/orderproduct">Order Product</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/update">Edit Product</Link>
-                </li>
-              </>
-            )}
-
-            {/* User-only My Orders */}
-            {user?.role === 'user' && (
-              <li className="nav-item">
-                <Link className="nav-link" to="/myorders">My Orders</Link>
-              </li>
-            )}
+            <li className="nav-item">
+              <Link className="nav-link" to="/myorders">My Orders</Link>
+            </li>
           </ul>
 
-          {/* Search box for users */}
-          {user?.role === 'user' && (
-            <form className="d-flex me-5" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" />
-              <button className="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          )}
+          <form className="d-flex me-5" role="search">
+            <input className="form-control me-2" type="search" placeholder="Search" />
+            <button className="btn btn-outline-success" type="submit">Search</button>
+          </form>
 
-          {/* Right-side icons */}
           <div className="d-flex align-items-center gap-4">
             <Link to="/cart" className="text-dark position-relative">
               <i className="fa-solid fa-cart-shopping fs-4"></i>

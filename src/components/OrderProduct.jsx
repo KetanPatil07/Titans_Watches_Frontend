@@ -1,54 +1,64 @@
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
 function OrderProduct() {
   const [orders, setOrders] = useState([]);
 
+  // ✅ Fetch orders from backend
   useEffect(() => {
-   
-    const dummyOrders = [
-      {
-        id: 1,
-        name: 'Ketan',
-        email: 'ketan@example.com',
-        address: 'Kolhapur, India',
-        productName: 'Titan Watch',
-        productImage: 'http://localhost:8080/img/titan.jpg',
-        quantity: 2,
-        price: '1499.50',
-        totalPrice: '2999.00',
-        paymentMethod: 'UPI',
-        orderDate: '2025-06-30',
-        status: 'Pending',
-      },
-      {
-        id: 2,
-        name: 'Akanksha',
-        email: 'akanksha@example.com',
-        address: 'Mumbai, India',
-        productName: 'Noise Smartwatch',
-        productImage: 'http://localhost:8080/img/noise.jpg',
-        quantity: 1,
-        price: '1999.00',
-        totalPrice: '1999.00',
-        paymentMethod: 'Cash on Delivery',
-        orderDate: '2025-06-29',
-        status: 'Delivered',
-      }
-    ];
-
-    setOrders(dummyOrders);
+    fetch('http://localhost:8080/api/orders/getall')
+      .then((res) => res.json())
+      .then((data) => setOrders(data))
+      .catch((err) => console.error('Error fetching orders:', err));
   }, []);
 
-  const handleStatusChange = (id, newStatus) => {
-    setOrders(prevOrders =>
-      prevOrders.map(order =>
-        order.id === id ? { ...order, status: newStatus } : order
-      )
-    );
+  // ✅ Update order status
+  const handleStatusChange = async (id, newStatus) => {
+    const selectedOrder = orders.find(order => order.id === id);
+
+    if (!selectedOrder) return;
+
+    if (newStatus === 'Cancelled') {
+      const confirm = await Swal.fire({
+        title: 'Are you sure?',
+        text: `Cancel order for ${selectedOrder.productName}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, cancel it!',
+        cancelButtonText: 'No'
+      });
+
+      if (!confirm.isConfirmed) return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:8080/api/orders/${id}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (res.ok) {
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === id ? { ...order, status: newStatus } : order
+          )
+        );
+
+        Swal.fire('Success', `Status updated to ${newStatus}`, 'success');
+      } else {
+        Swal.fire('Error', 'Failed to update status', 'error');
+      }
+    } catch (error) {
+      console.error('Error updating order status:', error);
+      Swal.fire('Error', 'Server error', 'error');
+    }
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 me-5 ">
       <h2 className="text-center mb-4 fw-bold">All Orders</h2>
 
       {orders.length === 0 ? (
@@ -99,6 +109,7 @@ function OrderProduct() {
                       onChange={(e) => handleStatusChange(order.id, e.target.value)}
                     >
                       <option value="Pending">Pending</option>
+                      <option value="Comform">Comform</option>
                       <option value="Shipped">Shipped</option>
                       <option value="Delivered">Delivered</option>
                       <option value="Cancelled">Cancelled</option>

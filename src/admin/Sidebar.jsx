@@ -1,133 +1,135 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
 import { toast } from 'react-toastify';
 
-const Sidebar = () => {
+function Sidebar() {
   const { cart, wishlist, user, setUser } = useStore();
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleLogout = () => {
     setUser(null);
     toast.success('Logged out successfully');
   };
 
+  // Show only for admin
+  if (user?.role !== 'admin') return null;
+
   return (
     <div className="d-flex">
       {/* Sidebar */}
       <div
-        className="sidebar bg-light p-3 border-end vh-100"
-        style={{ width: '250px', position: 'fixed', top: 0, left: 0 }}
+        className={`sidebar bg-light p-3 border-end vh-100 ${
+          isOpen ? '' : 'd-none'
+        }`}
+        style={{
+          width: '250px',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          overflowY: 'auto',
+          transition: 'all 0.3s ease'
+        }}
       >
-        <h4 className="mb-4">
-          <Link className="navbar-brand fw-bold fs-4" to="/">
-            MyStore
-          </Link>
-        </h4>
+        {/* Toggle close button */}
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h4 className="fw-bold">MyStore Admin</h4>
+          <button
+            className="btn btn-sm btn-outline-danger"
+            onClick={() => setIsOpen(false)}
+          >
+            ✖
+          </button>
+        </div>
+
+        {/* Count placeholder */}
+        <div className="mb-4 p-3 bg-primary text-white rounded">
+          <h5>Dashboard</h5>
+          <p>Total Orders: <strong>120</strong></p>
+          <p>Pending: <strong>24</strong></p>
+        </div>
 
         <ul className="nav flex-column">
-          <li className="nav-item">
-            <Link className="nav-link" to="/">
-              Home
-            </Link>
+          {/* Best Seller dropdown */}
+          <li className="nav-item dropdown">
+            <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              ⭐ Best Seller
+            </span>
+            <ul className="dropdown-menu show-static">
+              <li><Link className="dropdown-item" to="/admin">Add Product</Link></li>
+              <li><Link className="dropdown-item" to="/update">Edit Product</Link></li>
+            </ul>
           </li>
 
-          {user?.role === 'admin' && (
-            <>
-              <li className="nav-item dropdown">
-                <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                  Add Products
-                </span>
-                <ul className="dropdown-menu show-static">
-                  <li>
-                    <Link className="dropdown-item" to="/admin">
-                      Add All Products
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/Mens">
-                      Add Men Products
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/Womens">
-                      Add Women Products
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/child">
-                      Add Children Products
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/orderproduct">
-                  Order Product
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/update">
-                  Edit Product
-                </Link>
-              </li>
-            </>
-          )}
+          {/* Men dropdown */}
+          <li className="nav-item dropdown">
+            <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              👔 Men
+            </span>
+            <ul className="dropdown-menu show-static">
+              <li><Link className="dropdown-item" to="/Mens">Add Men Product</Link></li>
+            </ul>
+          </li>
 
-          {user?.role === 'user' && (
-            <>
-              {/* <li className="nav-item">
-                <Link className="nav-link" to="/myorders">
-                  My Orders
-                </Link>
-              </li> */}
-              <li className="nav-item">
-                <form className="d-flex mt-3" role="search">
-                  <input className="form-control me-2" type="search" placeholder="Search" />
-                  <button className="btn btn-outline-success" type="submit">
-                    Search
-                  </button>
-                </form>
-              </li>
-            </>
-          )}
+          {/* Women dropdown */}
+          <li className="nav-item dropdown">
+            <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              👗 Women
+            </span>
+            <ul className="dropdown-menu show-static">
+              <li><Link className="dropdown-item" to="/Womens">Add Women Product</Link></li>
+            </ul>
+          </li>
+
+          {/* Funky dropdown */}
+          <li className="nav-item dropdown">
+            <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              🎉 Funky
+            </span>
+            <ul className="dropdown-menu show-static">
+              <li><Link className="dropdown-item" to="/child">Add Funky Product</Link></li>
+            </ul>
+          </li>
+
+          {/* Orders Page */}
+          <li className="nav-item">
+            <Link className="nav-link" to="/orderproduct">
+              📦 Order Product
+            </Link>
+          </li>
         </ul>
 
-        {/* Footer actions in sidebar */}
+        {/* Footer actions */}
         <div className="mt-auto pt-4">
           <div className="d-flex flex-column gap-3">
-            <Link to="/cart" className="text-dark position-relative">
-              <i className="fa-solid fa-cart-shopping fs-5 me-2"></i>
-              Cart ({cart.length})
-            </Link>
+            
 
-            <Link to="/wishlist" className="text-dark position-relative">
-              <i className="fa-regular fa-heart fs-5 me-2"></i>
-              Wishlist ({wishlist.length})
-            </Link>
-
-            {!user ? (
-              <Link to="/login" className="text-dark">
-                <i className="fa-regular fa-user fs-5 me-2"></i> Login
-              </Link>
-            ) : (
-              <>
-                <span className="fw-bold text-secondary">Welcome: {user.name}</span>
-                <button className="btn btn-sm btn-outline-danger" onClick={handleLogout}>
-                  Logout
-                </button>
-              </>
-            )}
+            <span className="fw-bold text-secondary">Welcome: {user.name}</span>
+            <button className="btn btn-sm btn-outline-danger" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Page Content next to sidebar */}
-      <div style={{ marginLeft: '250px', padding: '20px', width: '100%' }}>
-        {/* Render main page content here */}
-        <h2>Welcome to MyStore</h2>
+      {/* Reopen toggle button if sidebar is closed */}
+      {!isOpen && (
+        <button
+          className="btn btn-primary position-fixed top-0 start-0 m-2"
+          onClick={() => setIsOpen(true)}
+          style={{ zIndex: 1000 }}
+        >
+          ☰
+        </button>
+      )}
+
+      {/* Page content wrapper */}
+      <div style={{ marginLeft: isOpen ? '250px' : '250px', padding: '20px', width: '100%' }}>
+        <h2>Admin Dashboard</h2>
+        {/* Your routed content will render outside this sidebar */}
       </div>
     </div>
   );
-};
+}
 
 export default Sidebar;
