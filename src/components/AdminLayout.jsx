@@ -1,6 +1,6 @@
 // components/AdminLayout.jsx
 import React from 'react';
-import Sidebar from './Sidebar';
+
 
 import Sidebar from '../admin/Sidebar';
 import Navbar from './Navbar';

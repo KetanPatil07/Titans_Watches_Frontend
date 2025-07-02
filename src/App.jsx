@@ -13,6 +13,7 @@ import Wishlist from "./products/Wishlist";
 import OrderForm from "./components/OrderForm";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
+import Sidebar from "./admin/Sidebar";
 
 
 
