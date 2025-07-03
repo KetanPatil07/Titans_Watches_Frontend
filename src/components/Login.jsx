@@ -13,7 +13,7 @@ function Login() {
 
   useEffect(() => {
     if (user) {
-      navigate(user.role === 'admin' ? '/admin' : '/');
+      navigate(user.role === 'admin' ? '/admin/dashboard' : '/');
     }
   }, [user, navigate]);
 
@@ -34,7 +34,7 @@ function Login() {
         timer: 1000,
         showConfirmButton: false,
       });
-      setTimeout(() => navigate('/admin'), 1000);
+      setTimeout(() => navigate('/admin/dashboard'), 1000);
       return;
     }
 

@@ -26,6 +26,8 @@ import AddFunkyProduct from "./admin/AddFunkyProduct";
 import AdminLayout from "./components/AdminLayout";
 import MyOrders from "./products/MyOrders";
 import Register from "./components/Register";
+import Dashboard from "./admin/Dashboard";
+import EdItBestSelles from "./admin/EdItBestSelles";
 
 function AppWrapper() {
   const { user } = useStore();
@@ -39,7 +41,8 @@ function AppWrapper() {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Addtocart />} />
         <Route path="/orderproduct" element={<OrderProduct />} />
-        <Route path="/update" element={<EditProduct />} />
+        <Route path="/update" element={<EdItBestSelles />} />
+
         <Route path="/Mens" element={<AdminLayout><AddMensProduct /></AdminLayout>} />
         <Route path="/Womens" element={<AdminLayout><AddWomensProduct /></AdminLayout>} />
         <Route path="/wishlist" element={<Wishlist />} />
@@ -54,6 +57,8 @@ function AppWrapper() {
         <Route path="/myorders" element={<MyOrders />} />
         <Route path="/kids" element={<AddFunkyProduct />} />
         <Route path="/child" element={<AdminLayout><AddFunkyProduct /></AdminLayout>} />
+        
+        <Route path="/admin/dashboard" element={<Sidebar><Dashboard /></Sidebar>} />
       </Routes>
 
       {/* ✅ Show Footer only if not on login/register page */}

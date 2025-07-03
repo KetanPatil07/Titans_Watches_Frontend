@@ -13,7 +13,7 @@ function Navbar() {
     navigate('/login');
   };
 
-  // ✅ Hide navbar if admin is logged in
+  
   if (user?.role === 'admin') {
     return null;
   }
