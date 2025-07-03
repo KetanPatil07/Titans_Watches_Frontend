@@ -63,7 +63,7 @@ function OrderProduct() {
   };
 
   return (
-    <div className="container mt-5 me-5">
+    <div className="container ms-5">
       <h2 className="text-center mb-4 fw-bold">All Orders</h2>
 
       {orders.length === 0 ? (

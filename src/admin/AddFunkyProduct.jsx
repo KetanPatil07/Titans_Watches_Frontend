@@ -43,8 +43,8 @@ const AddFunkyProduct = () => {
     };
   
     return (
-      <div className="container mx-5">
-        <h2 className="my-5">Add Men Product</h2>
+      <div className="container ">
+        <h2 className="">Add Kids Product</h2>
         <form onSubmit={onSubmitHandle} encType="multipart/form-data">
           <div className="mb-3">
             <label className="form-label">Product Image:</label>
