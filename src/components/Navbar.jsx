@@ -40,9 +40,11 @@ function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/">Home</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/myorders">My Orders</Link>
-            </li>
+            {user && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/myorders">My Orders</Link>
+                </li>
+              )}
           </ul>
 
           <form className="d-flex me-5" role="search">

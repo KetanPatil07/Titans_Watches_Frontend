@@ -25,6 +25,7 @@ import AddWomensProduct from "./admin/AddWomensProduct";
 import AddFunkyProduct from "./admin/AddFunkyProduct";
 import AdminLayout from "./components/AdminLayout";
 import MyOrders from "./products/MyOrders";
+import Register from "./components/Register";
 
 function AppWrapper() {
   const { user } = useStore();
@@ -45,6 +46,8 @@ function AppWrapper() {
         <Route path="/admin" element={<AdminLayout><Addproduct /></AdminLayout>} />
         <Route path="/order" element={<OrderForm />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
         <Route path="/men" element={<MensWatches />} />
         <Route path="/women" element={<WomensWatches />} />
         <Route path="/funky" element={<FunkyCollection />} />

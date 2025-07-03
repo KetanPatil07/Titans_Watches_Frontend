@@ -15,7 +15,6 @@ function OrderProduct() {
   // ✅ Update order status
   const handleStatusChange = async (id, newStatus) => {
     const selectedOrder = orders.find(order => order.id === id);
-
     if (!selectedOrder) return;
 
     if (newStatus === 'Cancelled') {
@@ -47,7 +46,13 @@ function OrderProduct() {
           )
         );
 
-        Swal.fire('Success', `Status updated to ${newStatus}`, 'success');
+        Swal.fire({
+          title: 'Success',
+          text: `Status updated to ${newStatus}`,
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false,
+        });
       } else {
         Swal.fire('Error', 'Failed to update status', 'error');
       }
@@ -58,7 +63,7 @@ function OrderProduct() {
   };
 
   return (
-    <div className="container mt-5 me-5 ">
+    <div className="container mt-5 me-5">
       <h2 className="text-center mb-4 fw-bold">All Orders</h2>
 
       {orders.length === 0 ? (
@@ -101,7 +106,7 @@ function OrderProduct() {
                   <td>₹{parseFloat(order.price).toFixed(2)}</td>
                   <td>₹{parseFloat(order.totalPrice).toFixed(2)}</td>
                   <td>{order.paymentMethod}</td>
-                  <td>{order.orderDate}</td>
+                  <td>{new Date(order.orderDate).toLocaleString()}</td>
                   <td>
                     <select
                       className="form-select form-select-sm"
@@ -109,7 +114,7 @@ function OrderProduct() {
                       onChange={(e) => handleStatusChange(order.id, e.target.value)}
                     >
                       <option value="Pending">Pending</option>
-                      <option value="Comform">Comform</option>
+                      <option value="Confirmed">Confirmed</option>
                       <option value="Shipped">Shipped</option>
                       <option value="Delivered">Delivered</option>
                       <option value="Cancelled">Cancelled</option>

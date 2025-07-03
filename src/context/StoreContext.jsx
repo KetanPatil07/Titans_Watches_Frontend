@@ -1,16 +1,34 @@
-// ✅ Full StoreContext.js with User Auth, Orders, Cart, Wishlist, and Add to Cart
+// src/context/StoreContext.js
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUserState] = useState(null);
   const [wishlist, setWishlist] = useState([]);
   const [cart, setCart] = useState([]);
   const [orders, setOrders] = useState([]);
 
-  // 🔐 User login
+  // ✅ Load user from localStorage on first render
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUserState(JSON.parse(storedUser));
+    }
+  }, []);
+
+  // ✅ Update user state + localStorage
+  const setUser = (newUser) => {
+    if (newUser) {
+      localStorage.setItem('user', JSON.stringify(newUser));
+    } else {
+      localStorage.removeItem('user');
+    }
+    setUserState(newUser);
+  };
+
+  // 🔐 Login user (custom backend)
   const login = async (mobile, password) => {
     try {
       const res = await fetch("http://localhost:8080/api/users/login", {
@@ -23,6 +41,7 @@ export const StoreProvider = ({ children }) => {
       setUser(data);
     } catch (err) {
       console.error("Login error:", err);
+      throw err;
     }
   };
 
@@ -39,12 +58,16 @@ export const StoreProvider = ({ children }) => {
       setUser(data);
     } catch (err) {
       console.error("Register error:", err);
+      throw err;
     }
   };
 
   // 🔓 Logout
   const logout = () => {
     setUser(null);
+    setCart([]);
+    setWishlist([]);
+    setOrders([]);
   };
 
   // ➕ Add to Cart
@@ -64,11 +87,7 @@ export const StoreProvider = ({ children }) => {
   const toggleWishlist = (product) => {
     setWishlist((prev) => {
       const exists = prev.find((item) => item.id === product.id);
-      if (exists) {
-        return prev.filter((item) => item.id !== product.id);
-      } else {
-        return [...prev, product];
-      }
+      return exists ? prev.filter((item) => item.id !== product.id) : [...prev, product];
     });
   };
 
@@ -88,30 +107,43 @@ export const StoreProvider = ({ children }) => {
     }
   };
 
-  // 📦 Fetch Orders
-  const fetchOrders = async () => {
-    try {
-      const res = await fetch("http://localhost:8080/api/orders/getall");
-      if (!res.ok) throw new Error("Failed to fetch orders");
-      const data = await res.json();
-      setOrders(data);
-    } catch (err) {
-      console.error("Error fetching orders:", err);
-    }
-  };
+  // 📦 Fetch All Orders (admin or user)
+const fetchOrders = async () => {
+  try {
+    if (!user?.id) return;
+    const res = await fetch(`http://localhost:8080/api/orders/user/${user.id}`);
+    if (!res.ok) throw new Error("Failed to fetch orders");
+    const data = await res.json();
+    setOrders(data);
+  } catch (err) {
+    console.error("Error fetching user orders:", err);
+  }
+};
 
   // ❌ Cancel Order
-  const cancelOrder = async (id) => {
-    try {
-      const res = await fetch(`http://localhost:8080/api/orders/${id}/status?status=Cancelled`, {
-        method: 'PUT',
-      });
-      if (!res.ok) throw new Error("Failed to cancel order");
-      fetchOrders();
-    } catch (err) {
-      console.error("Error cancelling order:", err);
+  // StoreContext.js
+
+const cancelOrder = async (orderId) => {
+  try {
+    const res = await fetch(`http://localhost:8080/api/orders/${orderId}/status`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: 'Cancelled' }),
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to cancel order');
     }
-  };
+
+    // Re-fetch updated orders
+    fetchOrders();
+  } catch (error) {
+    console.error('Cancel error:', error);
+    toast.error('Failed to cancel order');
+  }
+};
 
   // 🔁 Admin: Update Order Status
   const updateOrderStatus = async (id, status) => {

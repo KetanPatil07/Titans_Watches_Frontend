@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStore } from '../context/StoreContext';
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -9,10 +9,15 @@ function Wishlist() {
   const navigate = useNavigate();
 
   const handleAddToCart = (product) => {
-    addToCart(product); // ✅ Add to cart
-    setWishlist((prev) => prev.filter((item) => item.id !== product.id)); // ✅ Remove from wishlist
-    toast.success(`${product.name} moved to cart`); // ✅ Optional toast
-    navigate('/cart'); // ✅ Redirect to cart
+    addToCart(product);
+    setWishlist((prev) => prev.filter((item) => item.id !== product.id));
+    toast.success(`${product.name} moved to cart`);
+    navigate('/cart');
+  };
+
+  const handleRemoveFromWishlist = (productId) => {
+    setWishlist((prev) => prev.filter((item) => item.id !== productId));
+    toast.info('Item removed from wishlist');
   };
 
   return (
@@ -38,13 +43,24 @@ function Wishlist() {
                     <p className="card-text">{product.dis}</p>
                     <p className="card-text fw-bold text-success">₹{product.pprice}</p>
                   </div>
-                  <button
-                    className="btn btn-sm btn-primary mt-3"
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    <FaShoppingCart className="me-2" />
-                    Add to Cart
-                  </button>
+
+                  <div className="d-flex justify-content-between mt-3">
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      <FaShoppingCart className="me-2" />
+                      Add to Cart
+                    </button>
+
+                    <button
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={() => handleRemoveFromWishlist(product.id)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+
                 </div>
               </div>
             </div>
