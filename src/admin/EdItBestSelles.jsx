@@ -1,19 +1,21 @@
-// src/pages/EditBestSellers.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function EditBestSellers() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // 🔄 Fetch products from backend
   const fetchProducts = async () => {
     try {
       const res = await axios.get('http://localhost:8080/titan/AllProduct');
       setProducts(res.data);
     } catch (error) {
-      console.error('Failed to fetch products', error);
+      toast.error('Failed to fetch products');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -21,7 +23,6 @@ function EditBestSellers() {
     fetchProducts();
   }, []);
 
-  // 🗑️ Delete product
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
       title: 'Are you sure?',
@@ -36,9 +37,9 @@ function EditBestSellers() {
     try {
       await axios.delete(`http://localhost:8080/titan/deleteproduct/${id}`);
       setProducts(products.filter(p => p.id !== id));
-      Swal.fire('Deleted!', 'Product has been deleted.', 'success');
+      toast.success('Product deleted successfully');
     } catch (error) {
-      Swal.fire('Error!', 'Failed to delete product.', 'error');
+      toast.error('Failed to delete product');
     }
   };
 
@@ -46,49 +47,73 @@ function EditBestSellers() {
     <div className="container mt-5" style={{ marginLeft: '250px', minHeight: '100vh' }}>
       <h2 className="mb-4 fw-bold text-primary">🛍️ Manage Best Seller Products</h2>
 
-      {products.length === 0 ? (
+      {loading ? (
+        <div>Loading products...</div>
+      ) : products.length === 0 ? (
         <p>No products found.</p>
       ) : (
-        <div className="table-responsive">
-          <table className="table table-bordered table-hover">
-            <thead className="table-dark">
-              <tr>
-                <th>#</th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price (₹)</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((p, index) => (
-                <tr key={p.id}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <img
-                      src={p.photo}
-                      alt={p.name}
-                      style={{ width: '60px', height: '60px', objectFit: 'cover' }}
-                    />
-                  </td>
-                  <td>{p.name}</td>
-                  <td>{p.dis}</td>
-                  <td>₹{p.pprice}</td>
-                  <td>
-                    {/* 🔧 Link to update page (you can create that route separately) */}
-                    <Link to={`/update-product/${p.id}`} className="btn btn-sm btn-warning me-2">
-                      Edit
-                    </Link>
-                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id)}>
-                      Delete
-                    </button>
-                  </td>
+        <>
+          <p className="text-muted">Showing {products.length} products</p>
+
+          <div className="table-responsive">
+            <table className="table table-bordered table-hover align-middle">
+              <thead className="table-dark">
+                <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Price (₹)</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {products.map((p, index) => (
+                  <tr key={p.id}>
+                    <td>{index + 1}</td>
+                    <td>
+                      <img
+                        src={`http://localhost:8080/${p.photo}`}
+                        alt={p.name}
+                        style={{
+                          width: '60px',
+                          height: '60px',
+                          objectFit: 'cover',
+                          borderRadius: '5px'
+                        }}
+                        onError={(e) =>
+                          (e.target.src = 'https://via.placeholder.com/60x60?text=No+Image')
+                        }
+                      />
+                    </td>
+                    <td>
+                      {p.name}{' '}
+                      {p.bestSeller && (
+                        <span className="badge bg-success ms-2">Best Seller</span>
+                      )}
+                    </td>
+                    <td>{p.dis}</td>
+                    <td>₹{p.pprice}</td>
+                    <td>
+                      <Link
+                        to={`/admin/update-bestseller/${p.id}`}
+                        className="btn btn-sm btn-warning me-2"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDelete(p.id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );

@@ -28,6 +28,8 @@ import MyOrders from "./products/MyOrders";
 import Register from "./components/Register";
 import Dashboard from "./admin/Dashboard";
 import EdItBestSelles from "./admin/EdItBestSelles";
+import UpdateBestSeller from "./admin/UpadateBestSeller";
+import UpdateProductForm from "./admin/UpadateBestSeller";
 
 function AppWrapper() {
   const { user } = useStore();
@@ -55,6 +57,7 @@ function AppWrapper() {
         <Route path="/women" element={<WomensWatches />} />
         <Route path="/funky" element={<FunkyCollection />} />
         <Route path="/myorders" element={<MyOrders />} />
+        <Route path="/admin/update-product/:id" element={<UpdateProductForm />} />
         <Route path="/kids" element={<AddFunkyProduct />} />
         <Route path="/child" element={<AdminLayout><AddFunkyProduct /></AdminLayout>} />
         
