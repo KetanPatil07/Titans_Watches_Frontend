@@ -21,7 +21,7 @@ function Wishlist() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5" style={{height:"70vh"}}>
       <h2 className="text-center mb-4 fw-bold">My Wishlist</h2>
 
       {wishlist.length === 0 ? (

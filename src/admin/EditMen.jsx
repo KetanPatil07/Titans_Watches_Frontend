@@ -4,13 +4,13 @@ import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-function EditBestSellers() {
-  const [products, setProducts] = useState([]);
+function EditMen() {
+const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:8080/titan/AllProduct');
+      const res = await axios.get('http://localhost:8080/Mens/AllProduct');
       setProducts(res.data);
     } catch (error) {
       toast.error('Failed to fetch products');
@@ -35,7 +35,7 @@ function EditBestSellers() {
     if (!confirm.isConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:8080/titan/deleteproduct/${id}`);
+      await axios.delete(`http://localhost:8080/Mens/deleteproduct/${id}`);
       setProducts(products.filter(p => p.id !== id));
       toast.success('Product deleted successfully');
     } catch (error) {
@@ -44,8 +44,10 @@ function EditBestSellers() {
   };
 
   return (
+    <>
     <div className="container mt-5" style={{ marginLeft: '250px', minHeight: '100vh' }}>
-      <h2 className="mb-4 fw-bold text-primary">🛍️ Manage Best Seller Products</h2>
+      <h2 className="mb-4 fw-bold text-primary">🛍️ Manage Men Products</h2>
+
       {loading ? (
         <div>Loading products...</div>
       ) : products.length === 0 ? (
@@ -53,6 +55,7 @@ function EditBestSellers() {
       ) : (
         <>
           <p className="text-muted">Showing {products.length} products</p>
+
           <div className="table-responsive">
             <table className="table table-bordered table-hover align-middle">
               <thead className="table-dark">
@@ -73,18 +76,38 @@ function EditBestSellers() {
                       <img
                         src={`http://localhost:8080/${p.photo}`}
                         alt={p.name}
-                        style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '5px' }}
-                        onError={(e) => (e.target.src = 'https://via.placeholder.com/60x60?text=No+Image')}
+                        style={{
+                          width: '60px',
+                          height: '60px',
+                          objectFit: 'cover',
+                          borderRadius: '5px'
+                        }}
+                        onError={(e) =>
+                          (e.target.src = 'https://via.placeholder.com/60x60?text=No+Image')
+                        }
                       />
                     </td>
                     <td>
-                      {p.name} {p.bestSeller && <span className="badge bg-success ms-2">Best Seller</span>}
+                      {p.name}{' '}
+                      {p.bestSeller && (
+                        <span className="badge bg-success ms-2">Men</span>
+                      )}
                     </td>
                     <td>{p.dis}</td>
                     <td>₹{p.pprice}</td>
                     <td>
-                      <Link to={`/update-bestseller/${p.id}`} className="btn btn-sm btn-warning me-2">Edit</Link>
-                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id)}>Delete</button>
+                      <Link
+                        to={`/update-men/${p.id}`}
+                        className="btn btn-sm btn-warning me-2"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDelete(p.id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -94,7 +117,8 @@ function EditBestSellers() {
         </>
       )}
     </div>
-  );
+    </>
+  )
 }
 
-export default EditBestSellers;
+export default EditMen

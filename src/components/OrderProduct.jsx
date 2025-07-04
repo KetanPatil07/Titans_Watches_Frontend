@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 function OrderProduct() {
   const [orders, setOrders] = useState([]);
 
-  // ✅ Fetch orders from backend
+
   useEffect(() => {
     fetch('http://localhost:8080/api/orders/getall')
       .then((res) => res.json())
@@ -12,7 +12,7 @@ function OrderProduct() {
       .catch((err) => console.error('Error fetching orders:', err));
   }, []);
 
-  // ✅ Update order status
+ 
   const handleStatusChange = async (id, newStatus) => {
     const selectedOrder = orders.find(order => order.id === id);
     if (!selectedOrder) return;
@@ -63,13 +63,13 @@ function OrderProduct() {
   };
 
   return (
-    <div className="container ms-5">
+    <div className="container " style={{marginLeft:"230px"}}>
       <h2 className="text-center mb-4 fw-bold">All Orders</h2>
 
       {orders.length === 0 ? (
         <p className="text-center">No orders found.</p>
       ) : (
-        <div className="table-responsive">
+        <div className="table-responsive" >
           <table className="table table-bordered table-hover">
             <thead className="table-dark">
               <tr>

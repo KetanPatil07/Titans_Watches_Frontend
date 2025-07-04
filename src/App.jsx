@@ -28,8 +28,15 @@ import MyOrders from "./products/MyOrders";
 import Register from "./components/Register";
 import Dashboard from "./admin/Dashboard";
 import EdItBestSelles from "./admin/EdItBestSelles";
-import UpdateBestSeller from "./admin/UpadateBestSeller";
-import UpdateProductForm from "./admin/UpadateBestSeller";
+// import UpdateBestSeller from "./admin/UpadateBestSeller";
+// import UpdateProductForm from "./admin/UpadateBestSeller";
+import EditMen from "./admin/EditMen";
+import EditWomen from "./admin/EditWomen";
+import EditKids from "./admin/EditKids";
+import UpdateBestSeller from "./admin/UpdateBestSeller";
+import UpdateMen from "./admin/UpdateMen";
+import UpdateWomen from "./admin/UpdateWomen";
+import UpdateKids from "./admin/UpdateKids";
 
 function AppWrapper() {
   const { user } = useStore();
@@ -44,20 +51,27 @@ function AppWrapper() {
         <Route path="/cart" element={<Addtocart />} />
         <Route path="/orderproduct" element={<OrderProduct />} />
         <Route path="/update" element={<EdItBestSelles />} />
+        <Route path="/MensUpdate" element={<EditMen />} />
+        <Route path="/WomensUpdate" element={<EditWomen />} />
+        <Route path="/childUpdate" element={<EditKids />} />
+        <Route path={`/update-bestseller/:id`} element={<UpdateBestSeller />} />
+        <Route path={`/update-men/:id`} element={<UpdateMen />} />
+        <Route path={`/update-women/:id`} element={<UpdateWomen />} />
+        <Route path={`/update-kids/:id`} element={<UpdateKids />} />
 
         <Route path="/Mens" element={<AdminLayout><AddMensProduct /></AdminLayout>} />
         <Route path="/Womens" element={<AdminLayout><AddWomensProduct /></AdminLayout>} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/admin" element={<AdminLayout><Addproduct /></AdminLayout>} />
         <Route path="/order" element={<OrderForm />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login"  element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         <Route path="/men" element={<MensWatches />} />
         <Route path="/women" element={<WomensWatches />} />
         <Route path="/funky" element={<FunkyCollection />} />
         <Route path="/myorders" element={<MyOrders />} />
-        <Route path="/admin/update-product/:id" element={<UpdateProductForm />} />
+
         <Route path="/kids" element={<AddFunkyProduct />} />
         <Route path="/child" element={<AdminLayout><AddFunkyProduct /></AdminLayout>} />
         
