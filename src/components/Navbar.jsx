@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
 import { toast } from 'react-toastify';
+import '../assets/css/Navbar.css'
 
 function Navbar() {
   const { cart, wishlist, user, setUser } = useStore();
@@ -21,7 +22,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary border container-fluid card p-2 sticky-top">
       <div className="container-fluid">
-        <Link className="navbar-brand fw-bold fs-4" to="/">MyStore</Link>
+        <Link className="navbar-brand fw-bold fs-4" to="/">AKTime</Link>
 
         <button
           className="navbar-toggler"

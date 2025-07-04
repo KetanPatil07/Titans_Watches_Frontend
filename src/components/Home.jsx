@@ -5,6 +5,7 @@ import Service from './Service'
 import PhotoGallery from './PhotoGallery'
 import WatchCategoryCarousel from './WatchCategoryCrousal'
 import Footer from './Footer'
+import TestimonialsCarousel from './TestimonialsCarousel'
 function Home() {
   return (
     <>
@@ -12,7 +13,9 @@ function Home() {
        <Allproduct/>
        <PhotoGallery/>
        <WatchCategoryCarousel />
+        <TestimonialsCarousel/>
        <Service/>
+      
     </>
   )
 }

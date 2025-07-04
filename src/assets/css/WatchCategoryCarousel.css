@@ -4,7 +4,9 @@
   gap: 2rem;
   padding: 2rem;
   flex-wrap: wrap;
+  background: #f5f5f5;
 }
+
 
 .circle-card-link {
   text-decoration: none;
@@ -13,18 +15,29 @@
   position: relative;
 }
 
+
 .circle-card {
-  width: 130px;
-  height: 130px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #ddd;
+  border: 3px solid #bbb;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  transition: transform 0.3s ease;
+  background-color: #fff;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
 }
+
+
+.circle-card:hover {
+  transform: scale(1.12) rotate(2deg);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
 
 .circle-card img {
   width: 100%;
@@ -33,30 +46,33 @@
   border-radius: 50%;
 }
 
+
 .label {
-  font-weight: 600;
-  margin-top: 0.5rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: #333;
+  transition: color 0.3s ease;
 }
 
-/* Hover effect */
-.circle-card:hover {
-  transform: scale(1.05);
+.circle-card-link:hover .label {
+  color: #e63946;
 }
 
-/* Sale label on hover */
+
 .hover-sale {
   position: absolute;
-  top: 5px;
-  left: 5px;
-  background-color: red;
+  top: 8px;
+  left: 8px;
+  background-color: #e63946;
   color: white;
-  padding: 3px 8px;
+  padding: 5px 10px;
   font-size: 0.75rem;
   border-radius: 4px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
 .circle-card:hover .hover-sale {
-  opacity: 1;
+  opacity: 1;
 }

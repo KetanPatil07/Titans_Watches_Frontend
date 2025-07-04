@@ -1,0 +1,85 @@
+/* ===== Glassmorphism Navbar ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1.5rem;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  height: 60px;
+  color: white;
+  width: 100%;               /* ✅ Full width */
+  border-radius: 0;          /* ✅ Remove corner radius to stretch edge-to-edge */
+  margin: 0;                 /* ✅ Remove horizontal centering */
+}
+
+/* ===== Logo Styling ===== */
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ===== Links Container ===== */
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Nav Link Styling with Hover Effect ===== */
+.nav-link {
+  position: relative;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 4px 0;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background-color: #00d4ff;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ===== Text Gradient Class (Optional Use) ===== */
+.text-gradient {
+  background: linear-gradient(45deg, #00d4ff, #007bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===== Responsive Layout ===== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    height: auto;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  .navbar-logo {
+    margin-bottom: 0.5rem;
+  }
+}
